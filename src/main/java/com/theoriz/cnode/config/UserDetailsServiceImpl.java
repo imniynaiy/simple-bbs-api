@@ -18,7 +18,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private UserMapper userMapper;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public CnodeUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userMapper.findByLoginname(username);
         if (user == null) {
             throw new UsernameNotFoundException("No user found with username: " + username);
@@ -29,7 +29,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         boolean accountNonLocked = true;
         List<SimpleGrantedAuthority> authorityList = new ArrayList<>();
         authorityList.add(new SimpleGrantedAuthority("USER"));
-        return new org.springframework.security.core.userdetails.User(
+        return new CnodeUserDetails(user.getId(),
                 user.getLoginname(), user.getPassword(), enabled, accountNonExpired,
                 credentialsNonExpired, accountNonLocked, authorityList
         );

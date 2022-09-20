@@ -1,6 +1,8 @@
 package com.theoriz.cnode.utils;
 
+import com.theoriz.cnode.domain.entity.User;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.slf4j.Logger;
@@ -49,15 +51,10 @@ public class JwtTokenUtil {
      * 从token中获取JWT中的负载
      */
     private Claims getClaimsFromToken(String token) {
-        Claims claims = null;
-        try {
-            claims = Jwts.parser()
+        Claims claims = Jwts.parser()
                     .setSigningKey(secret)
                     .parseClaimsJws(token)
                     .getBody();
-        } catch (Exception e) {
-            LOGGER.info("JWT格式验证失败:{}",token);
-        }
         return claims;
     }
 
@@ -73,12 +70,8 @@ public class JwtTokenUtil {
      */
     public String getUserNameFromToken(String token) {
         String username;
-        try {
-            Claims claims = getClaimsFromToken(token);
-            username =  claims.getSubject();
-        } catch (Exception e) {
-            username = null;
-        }
+        Claims claims = getClaimsFromToken(token);
+        username =  claims.getSubject();
         return username;
     }
 
@@ -86,11 +79,15 @@ public class JwtTokenUtil {
      * 验证token是否还有效
      *
      * @param token       客户端传入的token
-     * @param userDetails 从数据库中查询出来的用户信息
      */
-    public boolean validateToken(String token, UserDetails userDetails) {
-        String username = getUserNameFromToken(token);
-        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+    public boolean validateToken(String token) {
+        try{
+            Jwts.parser().setSigningKey(secret).parse(token);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -112,9 +109,9 @@ public class JwtTokenUtil {
     /**
      * 根据用户信息生成token
      */
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(User user) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put(CLAIM_KEY_USERNAME, userDetails.getUsername());
+        claims.put(CLAIM_KEY_USERNAME, user.getLoginname());
         claims.put(CLAIM_KEY_CREATED, new Date());
         return generateToken(claims);
     }

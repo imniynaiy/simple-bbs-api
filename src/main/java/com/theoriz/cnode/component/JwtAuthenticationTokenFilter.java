@@ -1,5 +1,6 @@
 package com.theoriz.cnode.component;
 
+import com.theoriz.cnode.config.CnodeUserDetails;
 import com.theoriz.cnode.utils.JwtTokenUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,8 +43,8 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                 String username = jwtTokenUtil.getUserNameFromToken(authToken);
                 LOGGER.info("checking username:{}", username);
                 if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                    UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-                    if (jwtTokenUtil.validateToken(authToken, userDetails)) {
+                    if (jwtTokenUtil.validateToken(authToken)) {
+                        UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
                         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                         LOGGER.info("authenticated user:{}", username);

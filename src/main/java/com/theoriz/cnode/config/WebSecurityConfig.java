@@ -38,8 +38,11 @@ public class WebSecurityConfig {
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = httpSecurity
                 .authorizeRequests();
         //不需要保护的资源路径允许访问
-        for (String url : ignoreUrlsConfig.getUrls()) {
-            registry.antMatchers(url).permitAll();
+        for (String url : ignoreUrlsConfig.getGetUrls()) {
+            registry.antMatchers(HttpMethod.GET, url).permitAll();
+        }
+        for (String url : ignoreUrlsConfig.getPostUrls()) {
+            registry.antMatchers(HttpMethod.POST, url).permitAll();
         }
         //允许跨域请求的OPTIONS请求
         registry.antMatchers(HttpMethod.OPTIONS)
