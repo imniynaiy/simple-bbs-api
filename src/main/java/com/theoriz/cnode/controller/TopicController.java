@@ -24,7 +24,7 @@ public class TopicController {
     private ITopicService topicService;
 
     @PostMapping("/topics")
-    public Result addTopic(TopicDto topicDto){
+    public Result addTopic(@RequestBody TopicDto topicDto){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CnodeUserDetails details = (CnodeUserDetails) authentication.getPrincipal();
         Topic topic = new Topic();
