@@ -43,6 +43,14 @@ public class TopicController {
 
     @GetMapping("/topics")
     public Result listTopics(ListTopicDto listTopicDto) {
+        Integer page = listTopicDto.getPage();
+        if (page == null || page < 1) {
+            listTopicDto.setPage(1);
+        }
+        Integer limit = listTopicDto.getLimit();
+        if (limit == null || limit < 1 || limit > 40) {
+            listTopicDto.setLimit(20);
+        }
         String tab = listTopicDto.getTab();
         if ("all".equals(tab)) {
             listTopicDto.setTab(null);
