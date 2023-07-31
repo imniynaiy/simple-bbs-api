@@ -5,3 +5,6 @@ https://github.com/theoriz0/Vue-cnodejs 基于 https://github.com/shinygang/Vue-
 
 功能：
 jwt登录、发帖、回帖、点赞、消息
+
+默认端口号：8088
+Swagger Api文档：/swagger-ui/index.html
