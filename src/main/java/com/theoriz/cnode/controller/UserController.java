@@ -36,7 +36,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public Result login(UserDto userDto) {
+    public Result login(@RequestBody UserDto userDto) {
         UserLoginVo userLoginVo = userService.login(userDto);
         if (userLoginVo == null) {
             return new Result(false);
