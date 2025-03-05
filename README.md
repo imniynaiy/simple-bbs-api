@@ -1,10 +1,17 @@
-# simple-bbs-api 简单SpringBoot论坛
+# simple-bbs-api 
 
-前端：
-https://github.com/theoriz0/Vue-cnodejs 基于 https://github.com/shinygang/Vue-cnodejs
+A simple bbs api built with SpringBoot
 
-功能：
-jwt登录、发帖、回帖、点赞、消息
 
-默认端口号：8088
-Swagger Api文档：/swagger-ui/index.html
+Frontend：
+https://github.com/theoriz0/Vue-cnodejs (Based on https://github.com/shinygang/Vue-cnodejs)
+
+Functions：
+- jwt login
+- post
+- reply
+- like
+- message
+
+Default port：8088
+Swagger Api document：/swagger-ui/index.html
